@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="src.model.StokKart" table="stok_kart">
+
+		<meta attribute="class-description">
+			This class contains the employee detail.
+		</meta>
+
+		<id name="stokKodu" type="string" column="stok_kodu">
+		</id>
+
+		<property name="stokAdi" column="stok_adi" type="string" />
+		<many-to-one name="stokTipi" column="stok_tipi" class="src.model.StokTipiKart" />
+		<property name="birim" column="birimi" type="string" />
+		<property name="barkod" column="barkodu" type="string" />
+		<many-to-one name="kdvTipi" column="KDVTipi" class="src.model.KdvTipKart"/>
+		<property name="aciklama" column="aciklama" type="string" />
+		<property name="olusturmaTarihi" column="OlusturmaTarihi"
+			type="date" />
+
+
+	</class>
+</hibernate-mapping>

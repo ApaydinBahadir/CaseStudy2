@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="src.model.KdvTipKart" table="kdv_tip_kart">
+
+		<meta attribute="class-description">
+			This class contains the employee detail.
+		</meta>
+
+		<id name="id" type="int" column="kdvtip_id">
+		</id>
+
+		<property name="kodu" column="kdvtip_kodu" type="int" />
+		<property name="adi" column="kdvtip_adi" type="string" />
+		<property name="orani" column="kdvtip_orani" type="double" />
+
+
+	</class>
+</hibernate-mapping>
