@@ -1,7 +1,6 @@
 package src.command.StokKartMenu;
 
 import src.command.Command;
-import src.model.KdvTipKart;
 import src.model.StokTipiKart;
 import src.view.StokKartMenu;
 

@@ -21,7 +21,8 @@ public class StokKartListMailCommand implements Command {
 	}
 
 	private void sendMail() {
-		String getMail = JOptionPane.showInputDialog(frame, "deneme");
+		String getMail = JOptionPane.showInputDialog(frame, "Lütfen gönderilecek eposta adresini giriniz:");
+		JasperUtil.getPDF();
 		MailUtil.sendMail(getMail);
 	}
 }

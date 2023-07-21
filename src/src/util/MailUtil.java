@@ -1,23 +1,18 @@
 package src.util;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Properties;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
 
 public class MailUtil {
 	public static void sendMail(String sendMail) {
@@ -53,7 +48,7 @@ public class MailUtil {
 
 			// Attachment body part.
 			MimeBodyPart pdfAttachment = new MimeBodyPart();
-			File pdfFile = new File("src/src/util/saveFile.pdf");
+			File pdfFile = new File("src/src/util/StokList.pdf");
 			pdfAttachment.attachFile(pdfFile);
 
 			// Attach body parts

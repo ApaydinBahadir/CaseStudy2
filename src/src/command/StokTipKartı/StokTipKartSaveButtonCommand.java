@@ -1,7 +1,6 @@
 package src.command.StokTipKartı;
 
 import src.command.Command;
-import src.view.KdvTipiKartMenu;
 import src.view.StokTipKartMenu;
 
 public class StokTipKartSaveButtonCommand implements Command {

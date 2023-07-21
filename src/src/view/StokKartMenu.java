@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Vector;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -29,26 +28,14 @@ public class StokKartMenu extends JInternalFrame {
 	public JTextField stokKoduField = new JTextField();
 	public JTextField stokAdiField = new JTextField();
 	public JTextField barkodField = new JTextField();
-	public JComboBox stokTipiField = new JComboBox();
-	public JComboBox birimField = new JComboBox();
-	public JComboBox kdvTipiField = new JComboBox();
+	public JComboBox<Integer> stokTipiField = new JComboBox<>();
+	public JComboBox<String> birimField = new JComboBox<>();
+	public JComboBox<Double> kdvTipiField = new JComboBox<>();
 	public JTextArea aciklamaField = new JTextArea();
 	public JDateChooser olusTarihField = new JDateChooser();
 	public StokKart stokKart = new StokKart();
 	public KdvTipKart kdvTipiKart = new KdvTipKart();
 	public StokTipiKart stokTipiKart = new StokTipiKart();
-
-	public JButton backwardButton = new JButton(
-			new ImageIcon("D:\\Workspace\\CaseStudy2\\src\\src\\icons\\left-arrow.png"));
-	public JButton forwardButton = new JButton(
-			new ImageIcon("D:\\Workspace\\CaseStudy2\\src\\src\\icons\\right-arrow.png"));
-	public JButton firstButton = new JButton(
-			new ImageIcon("D:\\Workspace\\CaseStudy2\\src\\src\\icons\\leftleftarrow.png"));
-	public JButton lastButton = new JButton(
-			new ImageIcon("D:\\Workspace\\CaseStudy2\\src\\src\\icons\\rightrightarrow.png"));
-	public KdvTipKart tipKart = new KdvTipKart();
-	public int limitLooker = -1;
-	public int maxLimit = stokKart.getLastItemIndex();
 
 	Vector<String> birimArray = new Vector<>() {
 		{
@@ -86,7 +73,7 @@ public class StokKartMenu extends JInternalFrame {
 
 		this.setResizable(true);
 		this.setClosable(true);
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		dataPanel.setBounds(960, 29, 800, 600);
 		getContentPane().add(dataPanel);
@@ -181,15 +168,7 @@ public class StokKartMenu extends JInternalFrame {
 		refreshButton.setBounds(205, 300, 100, 50);
 		dataPanel.add(refreshButton);
 		refreshButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		firstButton.setBounds(320, 300, 32, 32);
-		dataPanel.add(firstButton);
-		backwardButton.setBounds(352, 300, 32, 32);
-		dataPanel.add(backwardButton);
-		forwardButton.setBounds(384, 300, 32, 32);
-		dataPanel.add(forwardButton);
-		lastButton.setBounds(416, 300, 32, 32);
-		dataPanel.add(lastButton);
+
 	}
 
 }

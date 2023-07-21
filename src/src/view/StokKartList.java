@@ -2,11 +2,9 @@ package src.view;
 
 import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.PopupMenu;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,8 +15,6 @@ import src.model.StokKart;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import java.awt.BorderLayout;
-import javax.swing.SpringLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 

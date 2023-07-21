@@ -5,11 +5,8 @@ import src.command.KdvTipiKart.KdvTipiKartFirstButtonCommand;
 import src.command.KdvTipiKart.KdvTipiKartForwardButtonCommand;
 import src.command.KdvTipiKart.KdvTipiKartLastButtonCommand;
 import src.command.KdvTipiKart.KdvTipiKartSaveButtonCommand;
-import src.command.StokKartMenu.StokKartMenuDeleteCommand;
-import src.command.StokKartMenu.StokKartMenuSaveCommand;
 import src.view.KdvTipiKartMenu;
 import src.view.MainFrame;
-import src.view.StokKartMenu;
 
 public class KdvTipController {
 	private KdvTipiKartMenu frame;
@@ -23,7 +20,7 @@ public class KdvTipController {
 	public void execute() {
 		this.frame = new KdvTipiKartMenu();
 		frame.setVisible(true);
-		mainFrame.add(frame);
+		mainFrame.desktopPane.add(frame);
 		listeners();
 	}
 

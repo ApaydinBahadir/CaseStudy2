@@ -1,24 +1,8 @@
 package src.view;
 
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.util.Vector;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
-import com.toedter.calendar.JDateChooser;
 
 import net.sf.jasperreports.view.JRViewer;
 import src.model.StokKart;
@@ -34,6 +18,7 @@ public class MainFrame extends JFrame {
 	public JMenuItem stokKartMenu = new JMenuItem("Stok Kart Menu");
 	public JMenuItem StokKartTip = new JMenuItem("Stok Tip Menu");
 	public JMenuItem kdvTip = new JMenuItem("KDV Tip Menu");
+	public JDesktopPane desktopPane = new JDesktopPane();
 	
 	public JRViewer jrView = new JRViewer(null);
 
@@ -59,8 +44,13 @@ public class MainFrame extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		
 
 		this.getContentPane().setLayout(null);
+		
+		desktopPane.setBounds(0, 0, 1920, 1080);
+		getContentPane().add(desktopPane);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

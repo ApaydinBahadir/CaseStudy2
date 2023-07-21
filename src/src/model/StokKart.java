@@ -1,25 +1,15 @@
+
 package src.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.transform.Transformers;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import net.sf.jasperreports.engine.JasperReport;
 import src.util.HibernateUtil;
 
 @Getter
@@ -149,9 +138,10 @@ public class StokKart {
 
 		try {
 			List query = session.createSQLQuery(
-					"SELECT  stok_kodu,stok_adi,stoktip_kodu, stoktip_adi, stoktip_aciklama, birimi, barkodu, kdvtip_kodu, kdvtip_adi, kdvtip_orani,aciklama,OlusturmaTarihi\r\n"
+					"SELECT  stok_kodu,stok_adi,stoktip_kodu, stoktip_adi, stoktip_aciklama, birimi, barkodu,kdvtip_orani, kdvtip_kodu, kdvtip_adi, aciklama,OlusturmaTarihi\r\n"
 							+ "FROM stok_kart LEFT  JOIN  kdv_tip_kart ON stok_kart.kdvTipi = kdv_tip_kart.kdvtip_orani \r\n"
-							+ "LEFT JOIN stok_tip_kart ON stok_kart.stok_tipi = stok_tip_kart.stoktip_kodu").setResultTransformer(Transformers.TO_LIST).list();
+							+ "LEFT JOIN stok_tip_kart ON stok_kart.stok_tipi = stok_tip_kart.stoktip_kodu")
+					.setResultTransformer(Transformers.TO_LIST).list();
 
 			return query;
 		} catch (Exception e) {
@@ -163,18 +153,17 @@ public class StokKart {
 
 		return null;
 	}
-	
 
 	public List<List<String>> findByIndex(int limitInteger) {
-		
-		
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		try {
-			
-			return session.createSQLQuery("SELECT * FROM stok_kart limit "+limitInteger+",1").setResultTransformer(Transformers.TO_LIST).list();
 
-		}catch (Exception e) {
+			return session.createSQLQuery("SELECT * FROM stok_kart limit " + limitInteger + ",1")
+					.setResultTransformer(Transformers.TO_LIST).list();
+
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return null;
@@ -186,12 +175,12 @@ public class StokKart {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		try {
-			
+
 			Query query = session.createSQLQuery("SELECT COUNT(*) FROM stok_kart");
-			
+
 			return ((Number) query.uniqueResult()).intValue();
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return null;

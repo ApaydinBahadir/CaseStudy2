@@ -2,7 +2,6 @@ package src.command.MainFrame;
 
 import src.command.Command;
 import src.controller.KdvTipController;
-import src.controller.StokTipKartController;
 import src.view.MainFrame;
 
 public class MainFrameKdvMenuCommand implements Command {

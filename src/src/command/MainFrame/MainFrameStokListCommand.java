@@ -1,13 +1,8 @@
 package src.command.MainFrame;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import src.command.Command;
 import src.controller.StokKartListController;
-import src.model.StokKart;
 import src.view.MainFrame;
-import src.view.StokKartList;
 
 public class MainFrameStokListCommand implements Command {
 

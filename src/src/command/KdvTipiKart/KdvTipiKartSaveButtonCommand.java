@@ -4,8 +4,6 @@ import java.util.List;
 
 import src.command.Command;
 import src.view.KdvTipiKartMenu;
-import src.view.StokKartList;
-import src.view.StokTipKartMenu;
 
 public class KdvTipiKartSaveButtonCommand implements Command {
 
@@ -20,12 +18,8 @@ public class KdvTipiKartSaveButtonCommand implements Command {
 	}
 
 	private void save() {
-//		frame.tipKart.saveOrUpdate(frame.kdvKoduField.getText(), frame.kdvAdiField.getText(),
-//				Double.parseDouble(frame.kdvOraniField.getText()));
-		System.out.println(frame.tipKart.findByIndex(1));
-		System.out.println(frame.tipKart.findByIndex(1).get(0));
-		List deneme = frame.tipKart.findByIndex(1).get(0);
-		System.out.println(deneme.get(0));
-		System.out.println(frame.tipKart.findByIndex(1));
+		frame.tipKart.saveOrUpdate(frame.kdvKoduField.getText(), frame.kdvAdiField.getText(),
+				Double.parseDouble(frame.kdvOraniField.getText()));
+
 	}
 }

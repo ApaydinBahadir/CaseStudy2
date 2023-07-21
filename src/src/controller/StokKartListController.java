@@ -1,17 +1,20 @@
 package src.controller;
 
-import java.awt.event.MouseAdapter;
+import java.awt.Desktop.Action;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.event.EventListenerList;
 
 import src.command.StokKartList.StokKartListExcelCommand;
 import src.command.StokKartList.StokKartListListCommand;
 import src.command.StokKartList.StokKartListMailCommand;
 import src.command.StokKartList.StokKartListPDFCommand;
 import src.command.StokKartList.StokKartListStokKartButtonCommand;
-import src.model.StokKart;
 import src.view.MainFrame;
 import src.view.StokKartList;
 
@@ -28,7 +31,7 @@ public class StokKartListController {
 	public void execute() {
 		this.frame = new StokKartList();
 		frame.setVisible(true);
-		mainFrame.add(frame);
+		mainFrame.desktopPane.add(frame);
 		listeners();
 	}
 
@@ -45,9 +48,21 @@ public class StokKartListController {
 				if (e.isPopupTrigger()) {
 					JTable source = (JTable) e.getSource();
 					int row = source.rowAtPoint(e.getPoint());
-					int column = source.columnAtPoint(e.getPoint());
 					frame.popupMenu.show(e.getComponent(), e.getX(), e.getY());
-					frame.StokKartButton.addActionListener(new GeneralAction(new StokKartListStokKartButtonCommand(mainFrame,frame,row)));
+					List actions = Arrays.asList(frame.StokKartButton.getActionListeners());
+					if (actions.isEmpty()) {
+						frame.StokKartButton.addActionListener(
+								new GeneralAction(new StokKartListStokKartButtonCommand(mainFrame, frame, row)));
+					} else {
+						    for( ActionListener al :frame.StokKartButton.getActionListeners() ) {
+						    	frame.StokKartButton.removeActionListener( al );
+						    }
+						
+						
+						frame.StokKartButton.addActionListener(
+								new GeneralAction(new StokKartListStokKartButtonCommand(mainFrame, frame, row)));
+
+					}
 
 				}
 			}

@@ -1,16 +1,10 @@
 package src.view;
 
-import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.Graphics;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import src.model.KdvTipKart;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 

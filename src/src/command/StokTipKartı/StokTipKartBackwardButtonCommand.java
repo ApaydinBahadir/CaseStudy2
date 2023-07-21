@@ -3,7 +3,6 @@ package src.command.StokTipKartı;
 import java.util.List;
 
 import src.command.Command;
-import src.view.KdvTipiKartMenu;
 import src.view.StokTipKartMenu;
 
 public class StokTipKartBackwardButtonCommand implements Command{
