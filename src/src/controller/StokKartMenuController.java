@@ -1,33 +1,34 @@
 package src.controller;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.swing.JInternalFrame;
-
-import src.command.StokKartMenu.StokKartMenuDeleteCommand;
+import src.command.StokKartMenu.StokKartMenuBackwardButtonCommand;
+import src.command.StokKartMenu.StokKartMenuDeleteButtonCommand;
+import src.command.StokKartMenu.StokKartMenuFirstButtonCommand;
+import src.command.StokKartMenu.StokKartMenuForwardButtonCommand;
 import src.command.StokKartMenu.StokKartMenuGetKDVCommand;
 import src.command.StokKartMenu.StokKartMenuGetTipCommand;
-import src.command.StokKartMenu.StokKartMenuSaveCommand;
-import src.view.MainFrame;
-import src.view.StokKartMenu;
+import src.command.StokKartMenu.StokKartMenuLastButtonCommand;
+import src.command.StokKartMenu.StokKartMenuSaveButtonCommand;
+import src.view.MainFrameView;
+import src.view.StokKartMenuView;
 
-public class StokKartMenuController {
+public class StokKartMenuController extends BaseMenuController {
 
-	private StokKartMenu kartMenu;
-	private MainFrame mainFrame;
+	private StokKartMenuView frame;
+	private MainFrameView mainFrame;
 
-	public StokKartMenuController(MainFrame mainFrame) {
+	public StokKartMenuController(MainFrameView mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 
-	public StokKartMenuController(MainFrame mainFrame, List datas) {
+	public StokKartMenuController(MainFrameView mainFrame, List<?> datas) {
 		this.mainFrame = mainFrame;
 		Boolean check = null;
 
 		for (int i = 0; i <= mainFrame.desktopPane.getComponentCount() - 1; i++) {
-			if (mainFrame.desktopPane.getComponent(i) instanceof StokKartMenu) {
-				this.kartMenu = (StokKartMenu) mainFrame.desktopPane.getComponent(i);
+			if (mainFrame.desktopPane.getComponent(i) instanceof StokKartMenuView) {
+				this.frame = (StokKartMenuView) mainFrame.desktopPane.getComponent(i);
 				check = false;
 				break;
 			}
@@ -36,33 +37,38 @@ public class StokKartMenuController {
 
 		if (check) {
 			execute();
+		} else {
+			new StokKartMenuGetKDVCommand(frame).execute();
+			new StokKartMenuGetTipCommand(frame).execute();
 		}
 
-			this.kartMenu.refreshButton.doClick();
-
-		this.kartMenu.stokKoduField.setText((String) datas.get(0));
-		this.kartMenu.stokAdiField.setText((String) datas.get(1));
-		this.kartMenu.stokTipiField.setSelectedItem(Integer.parseInt((String) datas.get(2)));
-		this.kartMenu.birimField.setSelectedItem(datas.get(5));
-		this.kartMenu.barkodField.setText((String) datas.get(6));
-		this.kartMenu.kdvTipiField.setSelectedItem(datas.get(9));
-		this.kartMenu.aciklamaField.setText((String) datas.get(10));
-		this.kartMenu.olusTarihField.setDate((Date) datas.get(11));
+		this.frame.stokKart.setData(datas, frame);
 
 	}
 
 	public void execute() {
-		this.kartMenu = new StokKartMenu();
-		kartMenu.setVisible(true);
-		mainFrame.desktopPane.add(kartMenu);
+		this.frame = new StokKartMenuView();
+		frame.setVisible(true);
+		mainFrame.desktopPane.add(frame);
+		this.navbarCreate(frame);
+
 		listeners();
+		new StokKartMenuGetKDVCommand(frame).execute();
+		new StokKartMenuGetTipCommand(frame).execute();
+
 	}
 
 	private void listeners() {
-		kartMenu.refreshButton.addActionListener(new GeneralAction(new StokKartMenuGetKDVCommand(kartMenu)));
-		kartMenu.refreshButton.addActionListener(new GeneralAction(new StokKartMenuGetTipCommand(kartMenu)));
-		kartMenu.saveButton.addActionListener(new GeneralAction(new StokKartMenuSaveCommand(kartMenu)));
-		kartMenu.deleteButton.addActionListener(new GeneralAction(new StokKartMenuDeleteCommand(kartMenu)));
+		this.frame.navbarView.forwardButton
+				.addActionListener(new GeneralAction(new StokKartMenuForwardButtonCommand(frame)));
+		this.frame.navbarView.backwardButton
+				.addActionListener(new GeneralAction(new StokKartMenuBackwardButtonCommand(frame)));
+		this.frame.navbarView.firstButton
+				.addActionListener(new GeneralAction(new StokKartMenuFirstButtonCommand(frame)));
+		this.frame.navbarView.lastButton.addActionListener(new GeneralAction(new StokKartMenuLastButtonCommand(frame)));
+		this.frame.navbarView.saveButton.addActionListener(new GeneralAction(new StokKartMenuSaveButtonCommand(frame)));
+		this.frame.navbarView.deleteButton
+				.addActionListener(new GeneralAction(new StokKartMenuDeleteButtonCommand(frame)));
 	}
 
 }

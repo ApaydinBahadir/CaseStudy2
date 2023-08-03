@@ -1,34 +1,39 @@
 package src.controller;
 
-import src.command.KdvTipiKart.KdvTipiKartBackwardButtonCommand;
-import src.command.KdvTipiKart.KdvTipiKartFirstButtonCommand;
-import src.command.KdvTipiKart.KdvTipiKartForwardButtonCommand;
-import src.command.KdvTipiKart.KdvTipiKartLastButtonCommand;
-import src.command.KdvTipiKart.KdvTipiKartSaveButtonCommand;
-import src.view.KdvTipiKartMenu;
-import src.view.MainFrame;
+import src.command.KdvKartMenu.KdvKartMenuBackwardButtonCommand;
+import src.command.KdvKartMenu.KdvKartMenuDeleteButtonCommand;
+import src.command.KdvKartMenu.KdvKartMenuFirstButtonCommand;
+import src.command.KdvKartMenu.KdvKartMenuForwardButtonCommand;
+import src.command.KdvKartMenu.KdvKartMenuLastButtonCommand;
+import src.command.KdvKartMenu.KdvKartMenuSaveButtonCommand;
+import src.view.KdvTipiKartMenuView;
+import src.view.MainFrameView;
 
-public class KdvTipController {
-	private KdvTipiKartMenu frame;
-	private MainFrame mainFrame;
+public class KdvTipController extends BaseMenuController {
+	private MainFrameView mainFrame;
 
-	public KdvTipController(MainFrame mainFrame) {
+	KdvTipiKartMenuView frame;
+
+	public KdvTipController(MainFrameView mainFrame) {
 		this.mainFrame = mainFrame;
 
 	}
 
 	public void execute() {
-		this.frame = new KdvTipiKartMenu();
+		this.frame = new KdvTipiKartMenuView();
 		frame.setVisible(true);
 		mainFrame.desktopPane.add(frame);
 		listeners();
+		this.navbarCreate(frame);
+
 	}
 
 	private void listeners() {
-		frame.saveButton.addActionListener(new GeneralAction(new KdvTipiKartSaveButtonCommand(frame)));
-		frame.forwardButton.addActionListener(new GeneralAction(new KdvTipiKartForwardButtonCommand(frame)));
-		frame.lastButton.addActionListener(new GeneralAction(new KdvTipiKartLastButtonCommand(frame)));
-		frame.backwardButton.addActionListener(new GeneralAction(new KdvTipiKartBackwardButtonCommand(frame)));
-		frame.firstButton.addActionListener(new GeneralAction(new KdvTipiKartFirstButtonCommand(frame)));
+		frame.navbarView.forwardButton.addActionListener(new GeneralAction(new KdvKartMenuForwardButtonCommand(frame)));
+		frame.navbarView.backwardButton.addActionListener(new GeneralAction(new KdvKartMenuBackwardButtonCommand(frame)));
+		frame.navbarView.firstButton.addActionListener(new GeneralAction(new KdvKartMenuFirstButtonCommand(frame)));
+		frame.navbarView.lastButton.addActionListener(new GeneralAction(new KdvKartMenuLastButtonCommand(frame)));
+		frame.navbarView.deleteButton.addActionListener(new GeneralAction(new KdvKartMenuDeleteButtonCommand(frame)));
+		frame.navbarView.saveButton.addActionListener(new GeneralAction(new KdvKartMenuSaveButtonCommand(frame)));
 	}
 }

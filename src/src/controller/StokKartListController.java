@@ -1,6 +1,5 @@
 package src.controller;
 
-import java.awt.Desktop.Action;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -8,28 +7,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JTable;
-import javax.swing.event.EventListenerList;
 
 import src.command.StokKartList.StokKartListExcelCommand;
 import src.command.StokKartList.StokKartListListCommand;
 import src.command.StokKartList.StokKartListMailCommand;
 import src.command.StokKartList.StokKartListPDFCommand;
+import src.command.StokKartList.StokKartListSearchButtonCommand;
 import src.command.StokKartList.StokKartListStokKartButtonCommand;
-import src.view.MainFrame;
-import src.view.StokKartList;
+import src.view.MainFrameView;
+import src.view.StokKartListView;
 
 public class StokKartListController {
 
-	private StokKartList frame;
-	private MainFrame mainFrame;
+	private StokKartListView frame;
+	private MainFrameView mainFrame;
 
-	public StokKartListController(MainFrame mainFrame) {
+	public StokKartListController(MainFrameView mainFrame) {
 		this.mainFrame = mainFrame;
 
 	}
 
 	public void execute() {
-		this.frame = new StokKartList();
+		this.frame = new StokKartListView();
 		frame.setVisible(true);
 		mainFrame.desktopPane.add(frame);
 		listeners();
@@ -41,7 +40,8 @@ public class StokKartListController {
 		frame.listele.addActionListener(new GeneralAction(new StokKartListListCommand(frame)));
 		frame.pdfButton.addActionListener(new GeneralAction(new StokKartListPDFCommand(frame)));
 		frame.mailButton.addActionListener(new GeneralAction(new StokKartListMailCommand(frame)));
-		frame.stokKartTable.addMouseListener(new MouseListener() {
+		frame.searchButton.addActionListener(new GeneralAction(new StokKartListSearchButtonCommand(frame)));
+		frame.table.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -49,7 +49,7 @@ public class StokKartListController {
 					JTable source = (JTable) e.getSource();
 					int row = source.rowAtPoint(e.getPoint());
 					frame.popupMenu.show(e.getComponent(), e.getX(), e.getY());
-					List actions = Arrays.asList(frame.StokKartButton.getActionListeners());
+					List<?> actions = Arrays.asList(frame.StokKartButton.getActionListeners());
 					if (actions.isEmpty()) {
 						frame.StokKartButton.addActionListener(
 								new GeneralAction(new StokKartListStokKartButtonCommand(mainFrame, frame, row)));

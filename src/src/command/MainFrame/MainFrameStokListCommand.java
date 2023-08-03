@@ -2,13 +2,13 @@ package src.command.MainFrame;
 
 import src.command.Command;
 import src.controller.StokKartListController;
-import src.view.MainFrame;
+import src.view.MainFrameView;
 
 public class MainFrameStokListCommand implements Command {
 
-	private MainFrame frame;
+	private MainFrameView frame;
 
-	public MainFrameStokListCommand(MainFrame frame) {
+	public MainFrameStokListCommand(MainFrameView frame) {
 		this.frame = frame;
 	}
 

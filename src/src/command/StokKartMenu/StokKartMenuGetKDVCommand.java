@@ -2,13 +2,13 @@ package src.command.StokKartMenu;
 
 import src.command.Command;
 import src.model.KdvTipKart;
-import src.view.StokKartMenu;
+import src.view.StokKartMenuView;
 
 public class StokKartMenuGetKDVCommand implements Command{
 
-	StokKartMenu frame;
+	StokKartMenuView frame;
 	
-	public StokKartMenuGetKDVCommand(StokKartMenu frame) {
+	public StokKartMenuGetKDVCommand(StokKartMenuView frame) {
 		this.frame = frame;
 	}
 	
@@ -21,7 +21,7 @@ public class StokKartMenuGetKDVCommand implements Command{
 	public void addKDV(){
 		for(
 				KdvTipKart kart:frame.kdvTipiKart.getKDV()) {
-			frame.kdvTipiField.addItem(kart.getOrani());
+			frame.kdvTipiField.addItem(kart);
 		}
 	}
 

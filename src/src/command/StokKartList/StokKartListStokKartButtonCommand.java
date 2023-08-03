@@ -1,23 +1,21 @@
 package src.command.StokKartList;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.swing.JInternalFrame;
+import java.util.Vector;
 
 import src.command.Command;
 import src.controller.StokKartMenuController;
-import src.view.MainFrame;
-import src.view.StokKartList;
+import src.view.MainFrameView;
+import src.view.StokKartListView;
 
 public class StokKartListStokKartButtonCommand implements Command {
-	MainFrame mainFrame;
-	StokKartList frame;
+	MainFrameView mainFrame;
+	StokKartListView frame;
 	int row;
 
-	public StokKartListStokKartButtonCommand(MainFrame mainFrame, StokKartList frame, int row) {
+	public StokKartListStokKartButtonCommand(MainFrameView mainFrame, StokKartListView frame, int row) {
 		this.frame = frame;
 		this.mainFrame = mainFrame;
 		this.row = row;

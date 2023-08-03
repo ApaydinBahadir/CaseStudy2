@@ -1,34 +1,39 @@
 package src.controller;
 
-import src.command.StokTipKartı.StokTipKartBackwardButtonCommand;
-import src.command.StokTipKartı.StokTipKartFirstButtonCommand;
-import src.command.StokTipKartı.StokTipKartForwardButtonCommand;
-import src.command.StokTipKartı.StokTipKartLastButtonCommand;
-import src.command.StokTipKartı.StokTipKartSaveButtonCommand;
-import src.view.MainFrame;
-import src.view.StokTipKartMenu;
+import src.command.Navbar.NavbarCreateCommand;
+import src.command.StokTipKartı.StokTipKartıBackwardButtonCommand;
+import src.command.StokTipKartı.StokTipKartıFirstButtonCommand;
+import src.command.StokTipKartı.StokTipKartıForwardButtonCommand;
+import src.command.StokTipKartı.StokTipiKartıLastButtonCommand;
+import src.command.StokTipKartı.StokTipiKartıSaveButtonCommand;
+import src.command.StokTipKartı.StokTipkartıDeleteButtonCommand;
+import src.view.BaseMenuFrame;
+import src.view.MainFrameView;
+import src.view.StokTipKartMenuView;
 
-public class StokTipKartController {
-	private StokTipKartMenu tipMenu;
-	private MainFrame mainFrame;
+public class StokTipKartController extends BaseMenuController{
+	private StokTipKartMenuView tipMenu;
+	private MainFrameView mainFrame;
 
-	public StokTipKartController(MainFrame mainFrame) {
+	public StokTipKartController(MainFrameView mainFrame) {
 		this.mainFrame = mainFrame;
 
 	}
 
 	public void execute() {
-		this.tipMenu = new StokTipKartMenu();
+		this.tipMenu = new StokTipKartMenuView();
 		tipMenu.setVisible(true);
 		mainFrame.desktopPane.add(tipMenu);
 		listeners();
+		this.navbarCreate(tipMenu);
 	}
 
 	private void listeners() {
-		tipMenu.saveButton.addActionListener(new GeneralAction(new StokTipKartSaveButtonCommand(tipMenu)));
-		tipMenu.forwardButton.addActionListener(new GeneralAction(new StokTipKartForwardButtonCommand(tipMenu)));
-		tipMenu.lastButton.addActionListener(new GeneralAction(new StokTipKartLastButtonCommand(tipMenu)));
-		tipMenu.backwardButton.addActionListener(new GeneralAction(new StokTipKartBackwardButtonCommand(tipMenu)));
-		tipMenu.firstButton.addActionListener(new GeneralAction(new StokTipKartFirstButtonCommand(tipMenu)));
+		this.tipMenu.navbarView.forwardButton.addActionListener(new GeneralAction(new StokTipKartıForwardButtonCommand(tipMenu)));
+		this.tipMenu.navbarView.backwardButton.addActionListener(new GeneralAction(new StokTipKartıBackwardButtonCommand(tipMenu)));
+		this.tipMenu.navbarView.firstButton.addActionListener(new GeneralAction(new StokTipKartıFirstButtonCommand(tipMenu)));
+		this.tipMenu.navbarView.lastButton.addActionListener(new GeneralAction(new StokTipiKartıLastButtonCommand(tipMenu)));
+		this.tipMenu.navbarView.saveButton.addActionListener(new GeneralAction(new StokTipiKartıSaveButtonCommand(tipMenu)));
+		this.tipMenu.navbarView.deleteButton.addActionListener(new GeneralAction(new StokTipkartıDeleteButtonCommand(tipMenu)));
 	}
 }
