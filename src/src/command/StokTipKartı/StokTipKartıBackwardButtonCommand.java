@@ -1,7 +1,7 @@
 package src.command.StokTipKartı;
 
 import src.command.Command;
-import src.view.StokTipKartMenuView;
+import src.view.menus.StokTipKartMenuView;
 
 public class StokTipKartıBackwardButtonCommand implements Command{
 	

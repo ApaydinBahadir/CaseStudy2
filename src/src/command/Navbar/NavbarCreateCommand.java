@@ -2,8 +2,7 @@ package src.command.Navbar;
 
 import src.command.Command;
 import src.controller.NavbarController;
-import src.view.BaseMenuFrame;
-import src.view.layouts.NavbarView;
+import src.view.baseViews.BaseMenuFrame;
 
 public class NavbarCreateCommand implements Command {
 

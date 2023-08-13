@@ -1,10 +1,10 @@
-package src.view;
+package src.view.menus;
 
 import java.awt.EventQueue;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import src.model.KdvTipKart;
-
+import src.view.baseViews.BaseMenuFrame;
 
 public class KdvTipiKartMenuView extends BaseMenuFrame {
 	public JTextField kdvAdiField = new JTextField();
@@ -34,13 +34,13 @@ public class KdvTipiKartMenuView extends BaseMenuFrame {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 
-		super.navbarView.setSize(450, 32);
+		super.navbarView.setSize(this.getWidth(), 32);
 		this.model = tipKart;
-		
+
 		getContentPane().add(super.navbarView);
-		
+
 		this.setTitle("KDV TİP KART MENU");
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setClosable(true);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
@@ -68,6 +68,7 @@ public class KdvTipiKartMenuView extends BaseMenuFrame {
 		kdvOraniField.setBounds(160, 157, 90, 30);
 		getContentPane().add(kdvOraniField);
 
+		super.getPopupMenu(false);
 
 	}
 }

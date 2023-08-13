@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import src.command.Command;
 import src.util.JasperUtil;
 import src.util.MailUtil;
-import src.view.StokKartListView;
+import src.view.lists.StokKartListView;
 
 public class StokKartListMailCommand implements Command {
 	StokKartListView frame;

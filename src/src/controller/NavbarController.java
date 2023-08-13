@@ -1,6 +1,6 @@
 package src.controller;
 
-import src.view.BaseMenuFrame;
+import src.view.baseViews.BaseMenuFrame;
 import src.view.layouts.NavbarView;
 
 public class NavbarController {

@@ -1,21 +1,24 @@
-package src.view;
+package src.view.lists;
 
 import java.awt.Component;
 import java.awt.EventQueue;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import src.model.StokKart;
+import src.view.baseViews.BaseListFrame;
+import src.view.tableModels.StokKartListTableModel;
+
 import javax.swing.JPopupMenu;
-public class StokKartListView extends BaseListFrame{
-	public DefaultTableModel model = new DefaultTableModel();
+
+public class StokKartListView extends BaseListFrame {
+	public StokKartListTableModel model = new StokKartListTableModel();
 	public JPopupMenu popupMenu = new JPopupMenu();
-	
-	public JButton searchButton = new  JButton("Search");
+
+	public JButton searchButton = new JButton("Search");
 	public JTextField searchField = new JTextField();
 
 	public JButton excelButton = new JButton("Excel");
@@ -48,9 +51,11 @@ public class StokKartListView extends BaseListFrame{
 	public StokKartListView() {
 		this.table = new JTable();
 		this.baseModel = new StokKart();
+		this.tableModel = new StokKartListTableModel();
+		
 		setBounds(100, 100, 900, 600);
 		getContentPane().setLayout(null);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setClosable(true);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		listele.setLocation(10, 0);
@@ -63,20 +68,17 @@ public class StokKartListView extends BaseListFrame{
 		searchField.setSize(166, 35);
 		searchField.setLocation(589, 0);
 		getContentPane().add(searchField);
-		
+
 		popupMenu.add(excelButton);
 		popupMenu.add(pdfButton);
 		popupMenu.add(mailButton);
 		popupMenu.add(StokKartButton);
-		
 
 		scrollPane.setAlignmentY(Component.TOP_ALIGNMENT);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setBounds(10, 35, 868, 526);
 
-		this.table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Stok Kodu", "Stok Adı", "Stok Tipi", "Stok Tipi Adı", "Stok Tipi Açıklama", "Birimi",
-						"Barkodu", "KDV Tipi", "KDV Tipi Adı", "KDV Tipi Açıklama", "Açıklama", "Oluşturma Tarihi" }));
+		this.table.setModel(this.tableModel);
 		scrollPane.add(this.table);
 		getContentPane().add(scrollPane);
 		this.table.setLayout(new BoxLayout(this.table, BoxLayout.X_AXIS));
@@ -95,6 +97,5 @@ public class StokKartListView extends BaseListFrame{
 		this.table.getColumnModel().getColumn(9).setPreferredWidth(this.getWidth() / 12);
 		this.table.getColumnModel().getColumn(10).setPreferredWidth(this.getWidth() / 12);
 		this.table.getColumnModel().getColumn(11).setPreferredWidth(this.getWidth() / 12);
-
 	}
 }

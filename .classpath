@@ -47,5 +47,8 @@
 	<classpathentry kind="lib" path="C:/Users/apayd/OneDrive/Desktop/apachepoi/javax.mail.jar"/>
 	<classpathentry kind="lib" path="C:/Users/apayd/OneDrive/Desktop/apachepoi/itext-2.1.7.jar"/>
 	<classpathentry kind="lib" path="C:/Users/apayd/OneDrive/Desktop/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/apayd/OneDrive/Desktop/hibernate-envers-5.6.5.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/apayd/OneDrive/Desktop/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/apayd/OneDrive/Desktop/log4j-core-2.18.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

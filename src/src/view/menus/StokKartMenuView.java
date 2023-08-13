@@ -1,14 +1,11 @@
-package src.view;
+	package src.view.menus;
 
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Vector;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -17,15 +14,18 @@ import com.toedter.calendar.JDateChooser;
 import src.model.KdvTipKart;
 import src.model.StokKart;
 import src.model.StokTipiKart;
+import src.view.baseViews.BaseMenuFrame;
+import src.view.comboBox.KdvTipComboBox;
+import src.view.comboBox.StokTipComboBox;
 import src.view.layouts.NavbarView;
 
 public class StokKartMenuView extends BaseMenuFrame {
 	public NavbarView nView;
 	public JTextField stokAdiField = new JTextField();
 	public JTextField barkodField = new JTextField();
-	public JComboBox stokTipiField = new JComboBox<>();
+	public StokTipComboBox stokTipiField = new StokTipComboBox();
 	public JComboBox<String> birimField = new JComboBox<>();
-	public JComboBox kdvTipiField = new JComboBox<>();
+	public KdvTipComboBox kdvTipiField = new KdvTipComboBox();
 	public JTextArea aciklamaField = new JTextArea();
 	public JDateChooser olusTarihField = new JDateChooser();
 	public StokKart stokKart = new StokKart();
@@ -62,13 +62,12 @@ public class StokKartMenuView extends BaseMenuFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	public StokKartMenuView() {
 //		super(nView);
 		setBounds(0, 0, 570, 500);
 		getContentPane().setLayout(null);
 
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setClosable(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setTitle("STOK KART MENU");
@@ -76,8 +75,8 @@ public class StokKartMenuView extends BaseMenuFrame {
 		super.kod.setBounds(100, 30, 120, 25);
 		getContentPane().add(super.kod);
 		super.kod.setColumns(10);
-
-		super.navbarView.setSize(450, 32);
+		
+		super.navbarView.setSize(this.getWidth(), 32);
 		getContentPane().add(super.navbarView);
 
 		super.model = this.stokKart;
@@ -94,43 +93,48 @@ public class StokKartMenuView extends BaseMenuFrame {
 
 		stokTipiField.setBounds(400, 30, 120, 25);
 		getContentPane().add(stokTipiField);
-		stokTipiField.setRenderer(new DefaultListCellRenderer() {
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-				if (value instanceof StokTipiKart) {
-					StokTipiKart tipKart = (StokTipiKart) value;
-					StringBuilder sb = new StringBuilder();
-					sb.append(tipKart.getKodu());
-					setText(sb.toString());
-				}
-				return this;
-			}
-		});
+//		stokTipiField.setBounds(400, 30, 120, 25);
+//		getContentPane().add(stokTipiField);
+//		stokTipiField.setRenderer(new DefaultListCellRenderer() {
+//			@Override
+//			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+//					boolean cellHasFocus) {
+//				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+//				if (value instanceof StokTipiKart) {
+//					StokTipiKart tipKart = (StokTipiKart) value;
+//					StringBuilder sb = new StringBuilder();
+//					sb.append(tipKart.getKodu());
+//					setText(sb.toString());
+//				}
+//				return this;
+//			}
+//		});
 
 		birimField.setBounds(400, 90, 120, 25);
 		getContentPane().add(birimField);
 		for (String i : birimArray) {
 			birimField.addItem(i);
 		}
-
+		
 		kdvTipiField.setBounds(400, 150, 120, 25);
-		kdvTipiField.setRenderer(new DefaultListCellRenderer() {
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-				if (value instanceof KdvTipKart) {
-					KdvTipKart kdvKart = (KdvTipKart) value;
-					StringBuilder sb = new StringBuilder();
-					sb.append(kdvKart.getOrani());
-					setText(sb.toString());
-				}
-				return this;
-			}
-		});
 		getContentPane().add(kdvTipiField);
+
+//		kdvTipiField.setBounds(400, 150, 120, 25);
+//		kdvTipiField.setRenderer(new DefaultListCellRenderer() {
+//			@Override
+//			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+//					boolean cellHasFocus) {
+//				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+//				if (value instanceof KdvTipKart) {
+//					KdvTipKart kdvKart = (KdvTipKart) value;
+//					StringBuilder sb = new StringBuilder();
+//					sb.append(kdvKart.getOrani());
+//					setText(sb.toString());
+//				}
+//				return this;
+//			}
+//		});
+//		getContentPane().add(kdvTipiField);
 
 		aciklamaField.setBounds(73, 190, 447, 81);
 		getContentPane().add(aciklamaField);
@@ -178,6 +182,8 @@ public class StokKartMenuView extends BaseMenuFrame {
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_7.setBounds(5, 190, 58, 81);
 		getContentPane().add(lblNewLabel_7);
+
+		super.getPopupMenu(true);
 
 	}
 }

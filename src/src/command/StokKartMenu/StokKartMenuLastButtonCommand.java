@@ -1,7 +1,7 @@
 package src.command.StokKartMenu;
 
 import src.command.Command;
-import src.view.StokKartMenuView;
+import src.view.menus.StokKartMenuView;
 
 public class StokKartMenuLastButtonCommand implements Command{
 

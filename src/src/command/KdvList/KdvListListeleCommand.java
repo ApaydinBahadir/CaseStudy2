@@ -6,7 +6,9 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import src.command.Command;
-import src.view.KdvListView;
+import src.model.KdvTipKart;
+import src.view.lists.KdvListView;
+import src.view.tableModels.KdvTipTableModel;
 
 public class KdvListListeleCommand implements Command {
 	KdvListView frame;
@@ -27,13 +29,11 @@ public class KdvListListeleCommand implements Command {
 		}
 
 		listAll.addAll(frame.baseModel.getAllRows());
-		frame.model = (DefaultTableModel) frame.table.getModel();
+		frame.model = (KdvTipTableModel) frame.table.getModel();
 		frame.model.setRowCount(0);
+		for (Object obj : frame.baseModel.getAllRows()) {
 
-		for (List<String> obj : frame.baseModel.getAllRows()) {
-
-			Object[] rows = { obj.get(0), obj.get(1), obj.get(2) };
-			frame.model.addRow(rows);
+			frame.model.addRow((KdvTipKart) obj);
 		}
 	}
 

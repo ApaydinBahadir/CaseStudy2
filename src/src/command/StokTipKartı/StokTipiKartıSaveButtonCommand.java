@@ -1,7 +1,7 @@
 package src.command.StokTipKartı;
 
 import src.command.Command;
-import src.view.StokTipKartMenuView;
+import src.view.menus.StokTipKartMenuView;
 
 public class StokTipiKartıSaveButtonCommand implements Command{
 	
@@ -13,7 +13,7 @@ public class StokTipiKartıSaveButtonCommand implements Command{
 
 	@Override
 	public void execute() {
-		frame.model.save();
+		frame.model.save(frame);
 	}
 	
 }

@@ -1,4 +1,4 @@
-package src.view;
+package src.view.menus;
 
 import java.awt.EventQueue;
 
@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import src.model.StokTipiKart;
+import src.view.baseViews.BaseMenuFrame;
 import src.view.layouts.NavbarView;
 
 public class StokTipKartMenuView extends BaseMenuFrame {
@@ -13,8 +14,6 @@ public class StokTipKartMenuView extends BaseMenuFrame {
 	public JTextField tipAciklamaField = new JTextField();
 	public StokTipiKart kart = new StokTipiKart();
 	public NavbarView navbar = super.navbarView;
-	public int limitLooker = 0;
-	public int maxLimit = kart.getLastItemIndex();
 
 	/**
 	 * Launch the application.
@@ -39,7 +38,7 @@ public class StokTipKartMenuView extends BaseMenuFrame {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setClosable(true);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setTitle("STOK TIP KART MENU");
@@ -56,14 +55,13 @@ public class StokTipKartMenuView extends BaseMenuFrame {
 		stokTipAciklama.setBounds(40, 156, 90, 30);
 		getContentPane().add(stokTipAciklama);
 
-		this
-		.kod.setBounds(160, 32, 90, 30);
+		this.kod.setBounds(160, 32, 90, 30);
 		getContentPane().add(super.kod);
 		super.kod.setColumns(10);
 
 		super.model = kart;
 
-		navbar.setBounds(0, 0, 558, 32);
+		navbar.setBounds(0, 0, this.getWidth(), 32);
 		super.model = this.kart;
 		getContentPane().add(navbar);
 
@@ -75,6 +73,9 @@ public class StokTipKartMenuView extends BaseMenuFrame {
 		tipAciklamaField.setBounds(160, 157, 90, 30);
 
 		getContentPane().add(tipAciklamaField);
+
+		super.getPopupMenu(true);
+
 
 	}
 

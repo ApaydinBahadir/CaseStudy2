@@ -16,20 +16,18 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
-import net.sf.jasperreports.view.JasperViewer;
 import src.model.StokKart;
 
 public class JasperUtil {
-
-	static StokKart stokModel = new StokKart();
 
 	@SuppressWarnings("deprecation")
 	public static ByteArrayOutputStream getPDF() {
 		try {
 
+			StokKart stokKart = new StokKart();
 			List<Map<String, ?>> listProducts = new ArrayList<Map<String, ?>>();
 
-			for (List<String> obj : stokModel.getAllRows()) {
+			for (List<String> obj : stokKart.getAllRowsString()) {
 				Map<String, Object> m = new HashMap<String, Object>();
 
 				m.put("Stok Kodu", obj.get(0));

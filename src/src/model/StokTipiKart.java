@@ -1,22 +1,21 @@
 package src.model;
 
-import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.swing.JInternalFrame;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.envers.Audited;
 import org.hibernate.transform.Transformers;
 
 import lombok.AllArgsConstructor;
@@ -24,19 +23,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import src.model.KdvTipKart.KdvTipKartBuilder;
 import src.util.HibernateUtil;
-import src.view.BaseMenuFrame;
-import src.view.KdvTipiKartMenuView;
-import src.view.StokKartMenuView;
-import src.view.StokTipKartMenuView;
+import src.view.baseViews.BaseMenuFrame;
+import src.view.menus.StokTipKartMenuView;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Audited
 @Builder
 @Entity
 @Table(name = "stok_tip_kart")
@@ -46,28 +41,32 @@ public class StokTipiKart implements BaseModel {
 	@Column(name = "stoktip_id")
 	private int id;
 
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "StokKart")
-//	private Collection<StokKart> stokKartKodu;
 	@Column(name = "stoktip_kodu")
-	private int kodu;
-	
-	
+	private String kodu;
+
 	@Column(name = "stoktip_adi")
 	private String adi;
 	@Column(name = "stoktip_aciklama")
 	private String aciklama;
 
-	public void saveOrUpdate(int kodu, String adi, String aciklama) {
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.valueOf(getKodu());
+	}
+
+	public StokTipiKart findById(int id) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
+
 		try {
-			session.saveOrUpdate(StokTipiKart.builder().kodu(kodu).adi(adi).aciklama(aciklama).build());
-			session.beginTransaction().commit();
+
+			Query query = session.createQuery("Select a from StokTipiKart a WHERE a.id=?1", StokTipiKart.class);
+			return (StokTipiKart) query.setParameter(1, id).uniqueResult();
+
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (session != null)
-				session.close();
+			// TODO: handle exception
 		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -127,6 +126,7 @@ public class StokTipiKart implements BaseModel {
 	@SuppressWarnings("deprecation")
 	public void delete(String stokTipKodu) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
 
 		try {
 			Criteria criteria = session.createCriteria(StokTipiKart.class);
@@ -134,10 +134,11 @@ public class StokTipiKart implements BaseModel {
 					.uniqueResult();
 
 			session.delete(deleteTipKart);
-			session.beginTransaction().commit();
+			tx.commit();
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			tx.rollback();
 
 		} finally {
 			if (session != null)
@@ -146,14 +147,19 @@ public class StokTipiKart implements BaseModel {
 
 	}
 
-
 	public void setData(StokTipiKart tipiKart, StokTipKartMenuView frame) {
-		frame.kod.setText(Integer.toString(tipiKart.getKodu()));
+		frame.kod.setText(tipiKart.getKodu());
 		frame.tipAdiField.setText(tipiKart.getAdi());
 		frame.tipAciklamaField.setText(tipiKart.getAciklama());
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	public void setData(StokTipiKart tipiKart) {
+		this.setKodu(tipiKart.getKodu());
+		this.setAdi(tipiKart.getAdi());
+		this.setAciklama(tipiKart.getAciklama());
+		this.setId(id);
+	}
+
 	@Override
 	public void travelseForward(String kodu, JInternalFrame frame) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -181,7 +187,6 @@ public class StokTipiKart implements BaseModel {
 		return;
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public void travelseBackward(String kodu, JInternalFrame frame) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -211,14 +216,17 @@ public class StokTipiKart implements BaseModel {
 		return;
 	}
 
-	public void save() {
+	public void save(JInternalFrame frame) {
+		StokTipKartMenuView saveFrame = (StokTipKartMenuView) frame;
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
 		try {
-			session.saveOrUpdate(StokTipiKart.builder().kodu(this.getKodu()).adi(this.getAdi())
-					.aciklama(this.getAciklama()).build());
-			session.beginTransaction().commit();
+			session.saveOrUpdate(StokTipiKart.builder().kodu(saveFrame.kod.getText())
+					.adi(saveFrame.tipAdiField.getText()).aciklama(saveFrame.tipAciklamaField.getText()).build());
+			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			tx.rollback();
 		} finally {
 			if (session != null)
 				session.close();
@@ -228,7 +236,7 @@ public class StokTipiKart implements BaseModel {
 	@Override
 	public void getData(BaseMenuFrame menuClass) {
 		StokTipKartMenuView frame = (StokTipKartMenuView) menuClass;
-		this.setKodu(Integer.parseInt(frame.kod.getText()));
+		this.setKodu(frame.kod.getText());
 		this.setAciklama(frame.tipAciklamaField.getText());
 		this.setAdi(frame.tipAdiField.getText());
 	}
@@ -278,5 +286,11 @@ public class StokTipiKart implements BaseModel {
 	public List getAllRows() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateKod(Object eskiDegisen, Object yeniDegisen, BaseMenuFrame frame) {
+		// TODO Auto-generated method stub
+
 	}
 }

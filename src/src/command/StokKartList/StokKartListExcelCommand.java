@@ -2,7 +2,7 @@ package src.command.StokKartList;
 
 import src.command.Command;
 import src.util.ExcelExporter;
-import src.view.StokKartListView;
+import src.view.lists.StokKartListView;
 
 public class StokKartListExcelCommand implements Command {
 	StokKartListView frame;

@@ -16,7 +16,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import src.command.Command;
-import src.view.StokKartListView;
+import src.view.lists.StokKartListView;
 
 public class StokKartListPDFCommand implements Command {
 

@@ -2,7 +2,7 @@ package src.command.KdvList;
 
 import src.command.Command;
 import src.util.ExcelExporter;
-import src.view.KdvListView;
+import src.view.lists.KdvListView;
 
 public class KdvListExcelCommand implements Command {
 

@@ -2,7 +2,6 @@ package src.command.MainFrame;
 
 import src.command.Command;
 import src.controller.KdvListController;
-import src.controller.KdvTipController;
 import src.view.MainFrameView;
 
 public class MainFrameKdvListCommand implements Command {

@@ -2,6 +2,7 @@ package src.controller;
 
 import java.util.List;
 
+import src.command.BaseMenuView.BaseMenuViewCodeChangeCommand;
 import src.command.StokKartMenu.StokKartMenuBackwardButtonCommand;
 import src.command.StokKartMenu.StokKartMenuDeleteButtonCommand;
 import src.command.StokKartMenu.StokKartMenuFirstButtonCommand;
@@ -10,8 +11,9 @@ import src.command.StokKartMenu.StokKartMenuGetKDVCommand;
 import src.command.StokKartMenu.StokKartMenuGetTipCommand;
 import src.command.StokKartMenu.StokKartMenuLastButtonCommand;
 import src.command.StokKartMenu.StokKartMenuSaveButtonCommand;
+import src.model.StokKart;
 import src.view.MainFrameView;
-import src.view.StokKartMenuView;
+import src.view.menus.StokKartMenuView;
 
 public class StokKartMenuController extends BaseMenuController {
 
@@ -22,7 +24,7 @@ public class StokKartMenuController extends BaseMenuController {
 		this.mainFrame = mainFrame;
 	}
 
-	public StokKartMenuController(MainFrameView mainFrame, List<?> datas) {
+	public StokKartMenuController(MainFrameView mainFrame, StokKart stokKart) {
 		this.mainFrame = mainFrame;
 		Boolean check = null;
 
@@ -42,7 +44,7 @@ public class StokKartMenuController extends BaseMenuController {
 			new StokKartMenuGetTipCommand(frame).execute();
 		}
 
-		this.frame.stokKart.setData(datas, frame);
+		this.frame.stokKart.setData(stokKart, frame);
 
 	}
 
@@ -69,6 +71,10 @@ public class StokKartMenuController extends BaseMenuController {
 		this.frame.navbarView.saveButton.addActionListener(new GeneralAction(new StokKartMenuSaveButtonCommand(frame)));
 		this.frame.navbarView.deleteButton
 				.addActionListener(new GeneralAction(new StokKartMenuDeleteButtonCommand(frame)));
+		
+		if(this.frame.changeKodButton != null) {
+			this.frame.changeKodButton.addActionListener(new GeneralAction(new BaseMenuViewCodeChangeCommand(frame)));
+		}
 	}
 
 }

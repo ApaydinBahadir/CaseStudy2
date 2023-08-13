@@ -1,7 +1,7 @@
 package src.command.StokKartMenu;
 
 import src.command.Command;
-import src.view.StokKartMenuView;
+import src.view.menus.StokKartMenuView;
 
 public class StokKartMenuSaveButtonCommand implements Command{
 
@@ -14,7 +14,7 @@ public class StokKartMenuSaveButtonCommand implements Command{
 	
 	@Override
 	public void execute() {
-		frame.model.save();
+		frame.model.save(frame);
 	}
 
 	

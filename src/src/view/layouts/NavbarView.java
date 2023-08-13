@@ -1,7 +1,6 @@
 package src.view.layouts;
 
 import javax.swing.JPanel;
-import src.model.BaseModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,7 +28,7 @@ public class NavbarView extends JPanel {
 
 	private void initialize() {
 
-		setBounds(0, 0, 192, 32);
+		setBounds(0, 0, this.getWidth(), this.getHeight()/12);
 		setLayout(new GridLayout(0, 6, 0, 0));
 
 		add(lastButton);

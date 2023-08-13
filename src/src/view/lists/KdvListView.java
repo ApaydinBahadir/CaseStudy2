@@ -1,21 +1,22 @@
-package src.view;
+package src.view.lists;
 
 import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JInternalFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import src.model.KdvTipKart;
+import src.view.baseViews.BaseListFrame;
+import src.view.tableModels.KdvTipTableModel;
 
 public class KdvListView extends BaseListFrame {
 
-	public DefaultTableModel model = new DefaultTableModel();
+	public KdvTipTableModel model = new KdvTipTableModel();
 	public JPopupMenu popupMenu = new JPopupMenu();
 	public JButton excelButton = new JButton("Excel");
 
@@ -42,17 +43,18 @@ public class KdvListView extends BaseListFrame {
 
 		this.baseModel = new KdvTipKart();
 		this.table = new JTable();
+		this.tableModel = new KdvTipTableModel();
 
 		setBounds(100, 100, 900, 600);
 		getContentPane().setLayout(null);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setClosable(true);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		listele.setLocation(0, 0);
-		listele.setSize(70, 35);
-		
+		listele.setSize(100, 35);
+
 		popupMenu.add(excelButton);
-        table.setComponentPopupMenu(popupMenu);
+		table.setComponentPopupMenu(popupMenu);
 
 		getContentPane().add(listele);
 
@@ -60,8 +62,7 @@ public class KdvListView extends BaseListFrame {
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setBounds(10, 35, 868, 526);
 
-		this.table.setModel(
-				new DefaultTableModel(new Object[][] {}, new String[] { "Kdv Kodu", "Kdv Adı", "Kdv Oranı" }));
+		this.table.setModel(this.tableModel);
 		scrollPane.add(this.table);
 		getContentPane().add(scrollPane);
 		this.table.setLayout(new BoxLayout(this.table, BoxLayout.X_AXIS));

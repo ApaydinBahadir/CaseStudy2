@@ -15,7 +15,7 @@ import src.command.StokKartList.StokKartListPDFCommand;
 import src.command.StokKartList.StokKartListSearchButtonCommand;
 import src.command.StokKartList.StokKartListStokKartButtonCommand;
 import src.view.MainFrameView;
-import src.view.StokKartListView;
+import src.view.lists.StokKartListView;
 
 public class StokKartListController {
 
@@ -91,6 +91,7 @@ public class StokKartListController {
 
 			}
 		});
+	
 	}
 
 }

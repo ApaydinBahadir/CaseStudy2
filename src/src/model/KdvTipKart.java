@@ -2,41 +2,41 @@ package src.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.swing.JInternalFrame;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RevisionNumber;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import src.util.HibernateUtil;
-import src.view.BaseMenuFrame;
-import src.view.KdvTipiKartMenuView;
-import src.view.StokTipKartMenuView;
+import src.view.baseViews.BaseMenuFrame;
+import src.view.menus.KdvTipiKartMenuView;
+import org.apache.logging.log4j.*;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
+@Audited
 @Entity
 @Table(name = "kdv_tip_kart")
 public class KdvTipKart implements BaseModel {
@@ -51,13 +51,16 @@ public class KdvTipKart implements BaseModel {
 	@Column(name = "kdvtip_orani")
 	private double orani;
 
+	@Transient
+	private Logger logger = LogManager.getLogger(KdvTipKart.class.getName());
+	
 	@SuppressWarnings("unchecked")
 	public List<KdvTipKart> getKDV() {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		try {
-
+			logger.info("KdvTipKart dataları çekildi.");
 			return (List<KdvTipKart>) session.createQuery("SELECT a FROM KdvTipKart a ").list();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,7 +73,19 @@ public class KdvTipKart implements BaseModel {
 
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	public KdvTipKart findById(int id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		try {
+			logger.info("KdvTipKart id="+id+" databaseden çekildi.");
+			KdvTipKart returnObject = session.load(KdvTipKart.class, id);
+			return returnObject;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public void travelseForward(String kodu, JInternalFrame frame) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -148,16 +163,17 @@ public class KdvTipKart implements BaseModel {
 	@SuppressWarnings("deprecation")
 	public void delete(String kdvTipKod) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
 
 		try {
 			Criteria criteria = session.createCriteria(KdvTipKart.class);
 			KdvTipKart deleteTipKart = (KdvTipKart) criteria.add(Restrictions.eq("kodu", kdvTipKod)).uniqueResult();
-
 			session.delete(deleteTipKart);
-			session.beginTransaction().commit();
-
+			logger.info("KdvTipKart kdv_tip_kod"+kdvTipKod+" silindi.");
+			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			tx.rollback();
 
 		} finally {
 			if (session != null)
@@ -167,18 +183,23 @@ public class KdvTipKart implements BaseModel {
 	}
 
 	@Override
-	public void save() {
+	public void save(JInternalFrame frame) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		KdvTipiKartMenuView saveFrame = (KdvTipiKartMenuView) frame;
+		Transaction tx = session.beginTransaction();
 		try {
-			session.saveOrUpdate(
-					KdvTipKart.builder().adi(this.getAdi()).kodu(this.getKodu()).orani(this.getOrani()).build());
-			session.beginTransaction().commit();
+			KdvTipKart saveKart = KdvTipKart.builder().adi(saveFrame.kdvAdiField.getText()).kodu(saveFrame.kod.getText())
+			.orani(Double.parseDouble(saveFrame.kdvOraniField.getText())).build();
+			session.saveOrUpdate(saveKart);
+			logger.info("KdvTipKart = "+saveKart+" silindi.");
+
+			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (session != null)
-				session.close();
 		}
+		tx.rollback();
+		session.close();
 	}
 
 	@Override
@@ -230,15 +251,14 @@ public class KdvTipKart implements BaseModel {
 		return;
 	}
 
-	
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public List<List<String>> getAllRows() {
+	public List<KdvTipKart> getAllRows() {
+		logger.info("KdvTipKart dataları çekildi.");
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		try {
-			List<List<String>> query = session.createSQLQuery(
-					"SELECT kdvtip_kodu, kdvtip_adi, kdvtip_orani from kdv_tip_kart")
-					.setResultTransformer(Transformers.TO_LIST).list();
+			List query = session.createQuery("SELECT a from KdvTipKart a", KdvTipKart.class).list();
 
 			return query;
 		} catch (Exception e) {
@@ -249,5 +269,24 @@ public class KdvTipKart implements BaseModel {
 		}
 
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(getOrani());
+	}
+
+	@Override
+	public void updateKod(Object eskiDegisen, Object yeniDegisen, BaseMenuFrame frame) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		int result = session.createSQLQuery(
+				"Update kdv_tip_kart set kdvtip_kodu='" + yeniDegisen + "'where kdvtip_kodu='" + eskiDegisen + "'")
+				.executeUpdate();
+
+		tx.commit();
+
 	}
 }

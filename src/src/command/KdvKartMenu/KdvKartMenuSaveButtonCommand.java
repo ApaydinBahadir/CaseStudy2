@@ -1,7 +1,7 @@
 package src.command.KdvKartMenu;
 
 import src.command.Command;
-import src.view.KdvTipiKartMenuView;
+import src.view.menus.KdvTipiKartMenuView;
 
 public class KdvKartMenuSaveButtonCommand implements Command{
 	KdvTipiKartMenuView frame;
@@ -12,7 +12,7 @@ public class KdvKartMenuSaveButtonCommand implements Command{
 	
 	@Override
 	public void execute() {
-		frame.model.save();
+		frame.model.save(frame);
 	}
 	
 	

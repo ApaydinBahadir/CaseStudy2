@@ -1,7 +1,7 @@
 package src.command.KdvKartMenu;
 
 import src.command.Command;
-import src.view.KdvTipiKartMenuView;
+import src.view.menus.KdvTipiKartMenuView;
 
 public class KdvKartMenuForwardButtonCommand implements Command {
 

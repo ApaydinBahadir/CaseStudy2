@@ -42,7 +42,6 @@ public class MainFrameView extends JFrame {
 	private void initialize() {
 
 		this.setBounds(100, 100, 1920, 1080);
-		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setTitle("STUDY CASE");

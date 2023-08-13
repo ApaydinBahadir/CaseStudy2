@@ -1,17 +1,15 @@
 package src.view.tableModels;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
 
 import src.model.StokKart;
 
-public class StokKartListTableModel extends AbstractTableModel {
+public class StokKartListTableModel extends BaseTableModel {
 
-	private Vector<String> columnNames = new Vector<String>() {
+	private Vector<String> tableColumnNames = new Vector<String>() {
 		{
 			add("Stok Kodu");
 			add("Stok Adı");
@@ -22,26 +20,30 @@ public class StokKartListTableModel extends AbstractTableModel {
 			add("Barkodu");
 			add("KDV Tipi");
 			add("KDV Tipi Adı");
-			add("KDV Tipi Açıklama");
+			add("KDV Tipi Oranı");
 			add("Açıklama");
 			add("Oluşturma Tarihi");
 		}
 	};
 
-	private Vector<Vector> data;
+	private Vector<StokKart> data;
 
+	public List getColumnsNames() {
+		return tableColumnNames;
+	}
+	
 	private static <E> Vector<E> newVector(int size) {
 		Vector<E> v = new Vector<>(size);
 		v.setSize(size);
 		return v;
 	}
 
-	private static <E> Vector<E> nonNullVector(Vector<E> v) {
-		return (v != null) ? v : new Vector<>();
+	private static <E> Vector nonNullVector(Vector<E> v) {
+		return (v != null) ? v : new Vector<StokKart>();
 	}
 
 	public StokKartListTableModel() {
-		this(0, 0);
+		setDataVector(newVector(0), tableColumnNames);
 	}
 
 	public StokKartListTableModel(int rowCount, int columnCount) {
@@ -49,25 +51,24 @@ public class StokKartListTableModel extends AbstractTableModel {
 	}
 
 	public StokKartListTableModel(Vector<?> columnNames, int rowCount) {
-		setDataVector(newVector(rowCount), columnNames);
+		setDataVector(newVector(rowCount), tableColumnNames);
 	}
 
-	public void setDataVector(Vector<? extends Vector> dataVector, Vector<?> columnIdentifiers) {
-		this.data = nonNullVector((Vector<Vector>) dataVector);
-		this.columnNames = (Vector<String>) nonNullVector(columnIdentifiers);
+	public void setDataVector(Vector<? extends Vector> dataVector, Vector<String> columnIdentifiers) {
+		this.data = nonNullVector((Vector) dataVector);
+		this.tableColumnNames = nonNullVector(columnIdentifiers);
 		justifyRows(0, getRowCount());
 		fireTableStructureChanged();
 	}
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return this.data.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return columnNames.size();
+		return tableColumnNames.size();
 	}
 
 	public boolean isCellEditable(int row, int column) {
@@ -78,9 +79,8 @@ public class StokKartListTableModel extends AbstractTableModel {
 		data.setSize(getRowCount());
 		for (int i = from; i < to; i++) {
 			if (data.elementAt(i) == null) {
-				data.setElementAt(new Vector<>(), i);
+				data.setElementAt(new StokKart(), i);
 			}
-			data.elementAt(i).setSize(getColumnCount());
 		}
 	}
 
@@ -89,20 +89,61 @@ public class StokKartListTableModel extends AbstractTableModel {
 		fireTableChanged(e);
 	}
 
-	public void insertRow(int row, Vector<?> rowData) {
-		data.insertElementAt((Vector<StokKart>) rowData, row);
+	public void insertRow(int row, StokKart rowData) {
+		data.insertElementAt(rowData, row);
 		justifyRows(row, row + 1);
 		fireTableRowsInserted(row, row);
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		@SuppressWarnings("unchecked")
-		Vector<StokKart> rowVector = data.elementAt(row);
-		return rowVector.elementAt(column);
+		switch (column) {
+		case 0: {
+
+			return data.get(row).getStokKodu();
+		}
+		case 1: {
+
+			return data.get(row).getStokAdi();
+		}
+		case 2: {
+
+			return data.get(row).getStokTipi().getKodu();
+		}
+		case 3: {
+			return data.get(row).getStokTipi().getAdi();
+		}
+		case 4: {
+			return data.get(row).getStokTipi().getAciklama();
+		}
+		case 5: {
+			return data.get(row).getBirim();
+		}
+		case 6: {
+			return data.get(row).getBarkod();
+		}
+		case 7: {
+			return data.get(row).getKdvtipi().getKodu();
+		}
+		case 8: {
+			return data.get(row).getKdvtipi().getAdi();
+		}
+		case 9: {
+			return data.get(row).getKdvtipi().getOrani();
+		}
+		case 10: {
+			return data.get(row).getAciklama();
+		}
+		case 11: {
+			return data.get(row).getOlusturmaTarihi();
+		}
+
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + column);
+		}
 	}
 
-	public void addRow(Vector<Object> rowData) {
+	public void addRow(StokKart rowData) {
 		insertRow(getRowCount(), rowData);
 	}
 
@@ -135,13 +176,19 @@ public class StokKartListTableModel extends AbstractTableModel {
 		return v;
 	}
 
-	public void addRow(Object[] rowData) {
-		addRow(convertToVector(rowData));
+	public StokKart getRowValue(int row) {
+		StokKart rowVector = data.elementAt(row);
+		return rowVector;
 	}
 
-	public Vector getRowValue(int row) {
-		Vector<StokKart> rowVector = data.elementAt(row);
-		return rowVector;
+	public String getColumnName(int column) {
+		Object id = null;
+		// This test is to cover the case when
+		// getColumnCount has been subclassed by mistake ...
+		if (column < tableColumnNames.size() && (column >= 0)) {
+			id = tableColumnNames.elementAt(column);
+		}
+		return (id == null) ? super.getColumnName(column) : id.toString();
 	}
 
 }

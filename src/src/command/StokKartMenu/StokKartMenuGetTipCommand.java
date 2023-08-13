@@ -1,28 +1,22 @@
 package src.command.StokKartMenu;
 
 import src.command.Command;
-import src.model.StokTipiKart;
-import src.view.StokKartMenuView;
+import src.view.menus.StokKartMenuView;
 
-public class StokKartMenuGetTipCommand implements Command{
-	
+public class StokKartMenuGetTipCommand implements Command {
 
 	StokKartMenuView frame;
-	
+
 	public StokKartMenuGetTipCommand(StokKartMenuView frame) {
 		this.frame = frame;
 	}
-	
-	
+
 	@Override
 	public void execute() {
 		addKDV();
 	}
-	
-	public void addKDV(){
-		for(
-				StokTipiKart kart:frame.stokTipiKart.getTipList()) {
-			frame.stokTipiField.addItem(kart);
-		}
+
+	public void addKDV() {
+		frame.stokTipiField.fillData(frame.stokTipiKart.getTipList());
 	}
 }
